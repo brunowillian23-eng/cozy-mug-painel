@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cozy Mug · Painel</title>
+<meta name="theme-color" content="#c2562e">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23c2562e'/%3E%3Cpath d='M16 22h26v18a10 10 0 0 1-10 10h-6a10 10 0 0 1-10-10z' fill='%23fff'/%3E%3Cpath d='M42 26h4a6 6 0 0 1 0 12h-4' fill='none' stroke='%23fff' stroke-width='4'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo" aria-hidden="true">☕</span><h1>Cozy Mug</h1></div>
+  <div class="top-right">
+    <label class="month"><span class="sr">Período</span><select id="month"></select></label>
+    <button id="syncBadge" class="badge" data-act="tab" data-tab="ajustes" title="Estado da sincronização"></button>
+  </div>
+</header>
+<nav class="tabs" id="tabs" aria-label="Seções"></nav>
+<main id="view"></main>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="app.js"></script>
+</body>
+</html>
