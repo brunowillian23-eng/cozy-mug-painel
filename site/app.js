@@ -167,7 +167,7 @@ const rankBy = (arr, key) => {
 };
 
 /* ---------- interface ---------- */
-const ui = { tab: 'painel', month: 'all', edit: null };
+const ui = { tab: 'painel', month: 'all', edit: null, shareUrl: null };
 const TABS = [['painel', 'Painel'], ['vendas', 'Vendas'], ['despesas', 'Despesas'], ['receber', 'A receber'], ['ajustes', 'Ajustes']];
 const kpi = (l, v, s, c = '') => `<div class="kpi ${c}"><div class="kpi-l">${l}</div><div class="kpi-v">${v}</div>${s ? `<div class="kpi-s">${s}</div>` : ''}</div>`;
 const editing = kind => ui.edit && ui.edit.kind === kind ? db[kind].find(x => x.id === ui.edit.id) : null;
@@ -300,9 +300,12 @@ function viewAjustes() {
     <label>Arquivo<input type="text" name="path" value="${esc(sync.path)}"></label>
     <label class="wide">Token (fine-grained, só neste repositório)<input type="password" name="token" value="${esc(sync.token)}" autocomplete="off"></label>
     <div class="row wide"><button class="btn" type="submit">${sync.enabled ? 'Atualizar e sincronizar' : 'Ativar sincronização'}</button>
-    ${sync.enabled ? '<button type="button" class="btn ghost" data-act="syncnow">Sincronizar agora</button><button type="button" class="btn danger" data-act="syncoff">Desligar</button>' : ''}</div>
+    ${sync.enabled ? '<button type="button" class="btn ghost" data-act="syncnow">Sincronizar agora</button><button type="button" class="btn ghost" data-act="sharelink">Gerar link para minha esposa</button><button type="button" class="btn danger" data-act="syncoff">Desligar</button>' : ''}</div>
     ${statusMsg ? `<div class="note wide">${esc(statusMsg)}</div>` : ''}
   </form>
+  ${ui.shareUrl ? `<div class="card"><h3>Link de acesso (sem conta no GitHub)</h3>
+    <p class="muted" style="margin-top:0">Mande este link só para ela (WhatsApp, por exemplo). Ao abrir no celular dela, a sincronização liga sozinha. <b>O link contém o token</b>: não poste em grupo nem em lugar público. Se perder o aparelho, apague o token no GitHub e gere outro.</p>
+    <input type="text" readonly value="${esc(ui.shareUrl)}" onfocus="this.select()"></div>` : ''}
   <div class="card"><h3>Backup e importação</h3><div class="row">
     <button class="btn ghost" data-act="exportjson">Baixar backup (.json)</button>
     <button class="btn ghost" data-act="exportcsv">Baixar vendas e despesas (.csv)</button>
@@ -340,7 +343,7 @@ function exportCsv() {
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if (!b) return;
   const { act, kind, id, tab } = b.dataset;
-  if (act === 'tab') { ui.tab = tab; ui.edit = null; render(); window.scrollTo(0, 0); }
+  if (act === 'tab') { ui.tab = tab; ui.edit = null; ui.shareUrl = null; render(); window.scrollTo(0, 0); }
   else if (act === 'edit') { ui.edit = { kind, id }; render(); window.scrollTo(0, 0); }
   else if (act === 'cancel') { ui.edit = null; render(); }
   else if (act === 'del') { if (confirm('Excluir este registro?')) { remove(kind, id); toast('Excluído'); } }
@@ -351,6 +354,11 @@ document.addEventListener('click', e => {
     const r = db.receber.find(x => x.id === id); if (!r) return;
     upsert('vendas', { id: uid('v'), data: today(), valor: r.valor, cliente: r.nome, produto: '', pagamento: '', obs: r.obs || 'recebido de "a receber"' });
     remove('receber', id); toast('Virou venda de hoje');
+  } else if (act === 'sharelink') {
+    const j = { o: sync.owner, r: sync.repo, b: sync.branch, p: sync.path, t: sync.token };
+    const enc = b64enc(JSON.stringify(j)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    ui.shareUrl = location.origin + location.pathname + '#cfg=' + enc; render();
+    try { navigator.clipboard.writeText(ui.shareUrl).then(() => toast('Link copiado'), () => toast('Copie o link abaixo')); } catch { toast('Copie o link abaixo'); }
   } else if (act === 'syncnow') syncNow();
   else if (act === 'syncoff') { sync.enabled = false; ls.set(LS_SYNC, JSON.stringify(sync)); setStatus('off'); render(); toast('Sincronização desligada'); }
   else if (act === 'exportjson') download(`cozy-mug-backup-${today()}.json`, JSON.stringify(db, null, 1), 'application/json');
@@ -395,6 +403,19 @@ document.addEventListener('submit', e => {
     ls.set(LS_SYNC, JSON.stringify(sync)); syncNow().then(() => { render(); toast(status === 'idle' ? 'Sincronizado!' : 'Veja o erro abaixo'); });
   }
 });
+
+/* Link de acesso: #cfg=... (o trecho depois do # nunca é enviado a servidores) */
+(function applyShared() {
+  try {
+    const m = location.hash.match(/^#cfg=([A-Za-z0-9_-]+)$/); if (!m) return;
+    const j = JSON.parse(b64dec(m[1].replace(/-/g, '+').replace(/_/g, '/')));
+    if (![j.o, j.r, j.t].every(x => typeof x === 'string' && x)) return;
+    sync = { ...sync, owner: j.o, repo: j.r, branch: j.b || 'main', path: j.p || 'data.json', token: j.t, enabled: true };
+    ls.set(LS_SYNC, JSON.stringify(sync)); status = 'idle';
+    history.replaceState(null, '', location.pathname + location.search);   // tira o token da barra de endereço
+    setTimeout(() => toast('Sincronização ativada neste aparelho'), 300);
+  } catch { /* link inválido: ignora */ }
+})();
 
 render();
 if (sync.enabled) syncNow();

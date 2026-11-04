@@ -32,7 +32,7 @@ O GitHub Pages gratuito só publica repositórios públicos. Por isso o site fic
 3. **Permissions → Repository permissions → Contents:** *Read and write*.
 4. Copie o token.
 
-Sua esposa pode ter a conta dela: convide-a em `cozy-mug-dados → Settings → Collaborators` e ela gera o próprio token
+Sua esposa **não precisa de conta no GitHub**: em **Ajustes → Gerar link para minha esposa**, copie o link e mande só para ela. Ao abrir, a sincronização liga sozinha. (O link contém o token: não o publique. Se alguém perder o aparelho, apague o token no GitHub e gere outro.)
 (assim vocês sabem quem alterou o quê no histórico do GitHub).
 
 ### 4. Ligar a sincronização
