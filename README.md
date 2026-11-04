@@ -33,11 +33,10 @@ O GitHub Pages gratuito só publica repositórios públicos. Por isso o site fic
 4. Copie o token.
 
 Sua esposa **não precisa de conta no GitHub**: em **Ajustes → Gerar link para minha esposa**, copie o link e mande só para ela. Ao abrir, a sincronização liga sozinha. (O link contém o token: não o publique. Se alguém perder o aparelho, apague o token no GitHub e gere outro.)
-(assim vocês sabem quem alterou o quê no histórico do GitHub).
 
 ### 4. Ligar a sincronização
 No site: **Ajustes → Sincronizar** → informe seu usuário, `cozy-mug-dados` e o token → **Ativar**.
-Faça o mesmo no aparelho da sua esposa. A partir daí os dois enxergam os mesmos dados (atualiza a cada minuto e
+Para sua esposa, use o link de acesso (passo acima). A partir daí os dois enxergam os mesmos dados (atualiza a cada minuto e
 sempre que você volta para a aba).
 
 O token fica salvo **só no navegador** de cada pessoa. Se o celular for perdido, revogue o token no GitHub.
