@@ -250,8 +250,8 @@ function viewAjustes() {
     <div class="field"><span>Tema</span>${seg('theme', [['light', 'Claro'], ['dark', 'Escuro']], currentTheme())}</div>
     <div class="field"><span>Densidade</span>${seg('density', [['comfy', 'Confortável'], ['compact', 'Compacta']], dens)}</div>
     <div class="field"><span>Tamanho do texto</span>${seg('fs', [['sm', 'Pequeno'], ['md', 'Médio'], ['lg', 'Grande']], fs)}</div></div></section>
-  <section class="card" ${ci()}><h3>Backup e importação</h3><div class="row" style="margin-top:0">
-    <button class="btn rip pressable" data-act="exportjson">Baixar backup (.json)</button><button class="btn rip pressable" data-act="exportcsv">Baixar vendas e despesas (.csv)</button><button class="btn rip pressable" data-act="print">Salvar como PDF</button>
+  <section class="card" ${ci()}><h3>Planilha, backup e importação</h3><div class="row" style="margin-top:0">
+    <button class="btn primary rip pressable" data-act="exportxlsx">Exportar para planilha (.xlsx)</button><button class="btn rip pressable" data-act="exportcsv">Exportar CSV</button><button class="btn rip pressable" data-act="exportjson">Backup (.json)</button><button class="btn rip pressable" data-act="print">Salvar como PDF</button>
     <label class="btn rip pressable" tabindex="0">Importar .json<input type="file" id="imp" accept="application/json,.json" hidden></label></div>
     <p class="note">Importar <b>mescla</b> com o que já existe: não duplica registros iguais e nunca sobrescreve edições mais novas.</p>
     <div class="row"><button class="btn small rip pressable" data-act="help">Ver atalhos do teclado (?)</button></div></section>`;
@@ -435,7 +435,8 @@ document.addEventListener('click', e => {
   } else if (act === 'syncnow') { syncNow(); toast('Sincronizando…'); }
   else if (act === 'syncoff') { sync.enabled = false; ls.set(LS_SYNC, JSON.stringify(sync)); setStatus('off'); render(); toast('Sincronização desligada'); }
   else if (act === 'exportjson') download(`cozy-mug-backup-${today()}.json`, JSON.stringify(db, null, 1), 'application/json');
-  else if (act === 'exportcsv') exportCsv();
+  else if (act === 'exportcsv') { exportCsv(); toast('Pronto! CSV baixado.'); }
+  else if (act === 'exportxlsx') { topProgress(); const n = exportXlsx(); toast(`Pronto! Planilha com ${n.vendas} vendas e ${n.despesas} despesas.`); }
   else if (act === 'print') window.print();
   else if (act === 'theme') toggleTheme();
   else if (act === 'help') openHelp();

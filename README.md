@@ -47,6 +47,7 @@ O token fica salvo **só no navegador** de cada pessoa. Se o celular for perdido
   gráfico mensal; melhores dias da semana; ranking de produtos/clientes; meta mensal.
 - **Vendas / Despesas / A receber:** cadastro, edição e exclusão. “Recebido ✓” transforma um valor a receber em venda de hoje.
 - **Parcelas:** cada compra no crédito guarda total de parcelas e parcelas restantes; o botão “−1 parcela” baixa uma parcela por mês.
+- **Planilha:** o botão **Planilha** (topo) baixa um `.xlsx` com as abas Resumo (com fórmulas e totais por mês), Vendas, Despesas e A receber. Abre no Excel, Google Planilhas e LibreOffice.
 - **Backup:** exporta `.json` e `.csv` (abre no Excel em português).
 - **Conflitos:** se os dois salvarem ao mesmo tempo, os registros são mesclados — ninguém perde lançamento.
 
@@ -73,6 +74,7 @@ Para trocar a cor principal, mude só `--brand`, `--brand-hover`, `--brand-press
 |---|---|
 | `site/core.js` | Dados, cálculos e sincronização com o GitHub (não mexe na aparência) |
 | `site/fx.js` | Ripple, contadores, confete, tilt, tema, overlays, toast |
+| `site/xlsx.js` | Gerador de planilha .xlsx (OOXML + ZIP), sem bibliotecas |
 | `site/charts.js` | Gráficos em SVG: barras, linha, sparklines, anéis, mapa de calor, selos |
 | `site/ui.js` | Telas, filtros, formulários, atalhos e eventos |
 | `site/style.css` | Tokens da marca, componentes e animações |
