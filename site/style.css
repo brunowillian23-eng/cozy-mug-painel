@@ -59,7 +59,7 @@ h1,h2,h3,p{margin:0}
 .topbar.scrolled{box-shadow:0 4px 18px rgba(74,63,69,.1);border-bottom-color:var(--line)}
 .topbar>*{min-width:0}
 .logo{display:flex;align-items:center;gap:8px;border:0;background:none;padding:4px 6px;margin-left:-6px;cursor:pointer;color:var(--brand);font-size:calc(22px*var(--fs));font-weight:600;letter-spacing:-.2px;border-radius:12px}
-.logo svg{width:28px;height:28px}
+.logo img{width:40px;height:40px;border-radius:50%;flex:none;box-shadow:0 0 0 1px var(--line)}
 .logo.hop{animation:hop .5s var(--spring)}
 @keyframes hop{0%{transform:translateY(0)}40%{transform:translateY(-8px) scale(1.04)}100%{transform:translateY(0)}}
 .tabs{position:relative;display:flex;gap:2px;padding:4px;overflow-x:auto;scrollbar-width:none;flex:1 1 auto;max-width:100%}
