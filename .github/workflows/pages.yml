@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 22
       - name: Conferir sintaxe do JavaScript
-        run: node --check site/app.js
+        run: for f in site/*.js; do node --check "$f"; done
       - name: Garantir que nenhum dado financeiro foi commitado aqui
         run: |
           if git ls-files | grep -E '(^|/)data\.json$'; then
