@@ -55,6 +55,28 @@ O token fica salvo **só no navegador** de cada pessoa. Se o celular for perdido
 O `data.json` em `cozy-mug-dados/` já vem com tudo da planilha “Cozy Mug” (69 vendas, 52 despesas, 3 valores a receber).
 Se preferir começar do zero, use um `data.json` com listas vazias, ou importe o arquivo em **Ajustes → Importar .json**.
 
+## Identidade visual e movimento
+
+Toda a marca vive nas variáveis do começo de `site/style.css` (bloco `:root`): cores, fonte, raios e curvas/durações de movimento.
+Para trocar a cor principal, mude só `--brand`, `--brand-hover`, `--brand-press` e `--brand-wash` (e a versão escura em `:root[data-theme="dark"]`).
+
+- **Cor de ação:** verde-sálvia do cachecol da logo (`#32785c`, contraste AA com texto branco). Rosa, amarelo e lilás da logo aparecem só em detalhes decorativos.
+- **Tema:** claro/escuro por `[data-theme]` + `prefers-color-scheme`; a escolha fica salva e é aplicada antes da primeira pintura.
+- **Preferências:** densidade (confortável/compacta) e tamanho do texto em *Ajustes*.
+- **Atalhos:** `?` abre a ajuda; `g` + `p/v/d/r/a` navega; `n` novo registro; `t` troca o tema.
+- **Movimento reduzido:** com `prefers-reduced-motion` as animações são desligadas e os contadores ficam instantâneos.
+- **PDF:** *Ajustes → Salvar como PDF* usa o `@media print` (sempre em cores claras).
+
+## Estrutura
+
+| Arquivo | Papel |
+|---|---|
+| `site/core.js` | Dados, cálculos e sincronização com o GitHub (não mexe na aparência) |
+| `site/fx.js` | Ripple, contadores, confete, tilt, tema, overlays, toast |
+| `site/charts.js` | Gráficos em SVG: barras, linha, sparklines, anéis, mapa de calor, selos |
+| `site/ui.js` | Telas, filtros, formulários, atalhos e eventos |
+| `site/style.css` | Tokens da marca, componentes e animações |
+
 ## Desenvolvimento local
 
 ```bash
